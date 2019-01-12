@@ -16,3 +16,14 @@ cityForm.addEventListener('submit', ($event) => {
     apiRequest.open('GET', 'https://api.openweathermap.org/data/2.5/weather?q=' + chosenCity + '&APPID=b34fddd3dae4a2eb0ad363b62f98ba1e');
     apiRequest.send();
 });
+
+apiRequest.onreadystatechange = () => {
+    if (apiRequest.readyState === 4) {
+        if (apiRequest.status === 404) {
+            return reportSection.textContent = "La ciudad no existe";
+        }
+        const response = JSON.parse(apiRequest.response);
+        reportSection.textContent = "El clima en " + response.name + " es " + response.weather[0].main + ".";
+        console.log(response);
+    }
+}
